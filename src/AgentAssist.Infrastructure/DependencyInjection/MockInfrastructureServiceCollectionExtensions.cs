@@ -1,0 +1,30 @@
+using AgentAssist.Application.Abstractions;
+using AgentAssist.Application.Ai;
+using AgentAssist.Infrastructure.Ai;
+using AgentAssist.Infrastructure.Mocks;
+using Microsoft.Extensions.AI;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace AgentAssist.Infrastructure.DependencyInjection;
+
+/// <summary>
+/// Provides dependency injection registration for Phase A mock infrastructure.
+/// </summary>
+public static class MockInfrastructureServiceCollectionExtensions
+{
+    /// <summary>
+    /// Adds deterministic mock infrastructure services.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection.</returns>
+    public static IServiceCollection AddMockInfrastructure(this IServiceCollection services)
+    {
+        services.AddSingleton<IKnowledgeSearchService, MockKnowledgeSearchService>();
+        services.AddSingleton<IRiskClassifier, MockRiskClassifier>();
+        services.AddSingleton<IAuditEventSink, MockAuditEventSink>();
+        services.AddSingleton<IPromptProvider, EmbeddedResourcePromptProvider>();
+        services.AddChatClient(new MockChatClient());
+
+        return services;
+    }
+}
