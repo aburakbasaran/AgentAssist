@@ -15,7 +15,8 @@ public sealed class PromptProviderTests
         var template = await provider.GetAsync("assistant.answer.v1", CancellationToken.None);
 
         template.TemplateId.Should().Be("assistant.answer.v1");
-        template.SystemMessage.Should().Contain("Kaynaksız cevap verme");
+        template.SystemMessage.Should().Contain("citations");
+        template.SystemMessage.Should().Contain("citation-first");
         template.UserMessageFormat.Should().Contain("{{question}}");
         template.UserMessageFormat.Should().Contain("{{retrievedChunks}}");
     }

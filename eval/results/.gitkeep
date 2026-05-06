@@ -1,0 +1,1 @@
+CI artefacts only — populated by `dotnet test tests/AgentAssist.Evaluation.Tests` via the `EvaluationHarnessFixture`.

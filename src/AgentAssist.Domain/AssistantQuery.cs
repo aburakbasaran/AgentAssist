@@ -19,4 +19,14 @@ public sealed record AssistantQuery
     /// Gets the caller roles used for knowledge filtering.
     /// </summary>
     public required IReadOnlyList<string> Roles { get; init; }
+
+    /// <summary>
+    /// Gets the optional location used for knowledge filtering.
+    /// </summary>
+    public string? Location { get; init; }
+
+    /// <summary>
+    /// Gets the correlation identifier propagated from the inbound request.
+    /// </summary>
+    public string? CorrelationId { get; init; }
 }

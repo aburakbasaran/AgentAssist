@@ -1,0 +1,5 @@
+# ADR-0007: Azure AI Search Retrieval
+
+The production pilot replaces the mock keyword search with Azure AI Search using a hybrid retrieval strategy (keyword + vector + semantic ranker). Application code keeps consuming the `IKnowledgeSearchService` abstraction; only Infrastructure registration switches between `MockKnowledgeSearchService` and `AzureSearchKnowledgeService` based on `AgentAssistOptions.Mode`. Authentication uses `DefaultAzureCredential` with Managed Identity in Azure and `az login` locally; API keys are not used in production. Filters (`roles`, `documentType`, `location`, `isActive`) are built through a safe OData filter builder backed by allow-list mapping so user input never lands in raw OData strings. Vector search uses an embedding generator wired in Slice 3.
+
+This ADR is finalised in Slice 2; field-level details (`AzureSearchOptions`, filter builder allow-lists, index schema) live in `docs/azure/search-index-schema.md` and the Slice 2 source under `src/AgentAssist.Infrastructure/Azure/Search/`.

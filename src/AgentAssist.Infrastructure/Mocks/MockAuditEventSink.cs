@@ -9,14 +9,23 @@ internal sealed class MockAuditEventSink(ILogger<MockAuditEventSink> logger) : I
     public ValueTask WriteAsync(AuditEvent auditEvent, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(auditEvent);
 
         logger.LogInformation(
-            "Assistant audit event accepted. Timestamp={Timestamp} UserId={UserId} RiskClass={RiskClass} Refused={Refused} CitationCount={CitationCount}",
+            "Assistant audit event accepted. CorrelationId={CorrelationId} Mode={Mode} Timestamp={Timestamp} UserId={UserId} QuestionHash={QuestionHash} Retrieval={RetrievalCount} Citations={CitationCount} Confidence={ConfidenceLevel} Risk={RiskClass} Escalation={EscalationRequired} Refused={Refused} RefusalReason={RefusalReason} LatencyMs={LatencyMs}",
+            auditEvent.CorrelationId,
+            auditEvent.Mode,
             auditEvent.Timestamp,
             auditEvent.UserId,
+            auditEvent.QuestionHash,
+            auditEvent.RetrievalCount,
+            auditEvent.CitationCount,
+            auditEvent.ConfidenceLevel,
             auditEvent.RiskClass,
+            auditEvent.EscalationRequired,
             auditEvent.Refused,
-            auditEvent.CitationCount);
+            auditEvent.RefusalReason,
+            auditEvent.LatencyMs);
 
         return ValueTask.CompletedTask;
     }

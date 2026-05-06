@@ -6,6 +6,9 @@ namespace AgentAssist.Api.IntegrationTests;
 public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private const string CorrelationIdHeader = "X-Correlation-Id";
+    private const string AgentUserHeader = "X-Agent-User";
+    private const string AgentRolesHeader = "X-Agent-Roles";
+    private const string AgentLocationHeader = "X-Agent-Location";
 
     private readonly WebApplicationFactory<Program> _factory;
 
@@ -14,16 +17,24 @@ public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory
         _factory = factory;
     }
 
+    private HttpClient CreateAgentClient()
+    {
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Add(AgentUserHeader, "pilot-user");
+        client.DefaultRequestHeaders.Add(AgentRolesHeader, "agent");
+        client.DefaultRequestHeaders.Add(AgentLocationHeader, "branch-a");
+        return client;
+    }
+
     [Fact]
     public async Task PostQuery_ValidQuestion_ReturnsOkAssistantAnswer()
     {
-        var client = _factory.CreateClient();
+        var client = CreateAgentClient();
         var ct = TestContext.Current.CancellationToken;
 
         var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
         {
-            question = "MR randevu hazırlık bilgisi nedir?",
-            roles = new[] { "agent" }
+            question = "MR randevu hazırlık bilgisi nedir?"
         }, ct);
         var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(ct);
 
@@ -38,13 +49,12 @@ public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory
     [Fact]
     public async Task PostQuery_EmptyQuestion_ReturnsValidationProblem()
     {
-        var client = _factory.CreateClient();
+        var client = CreateAgentClient();
         var ct = TestContext.Current.CancellationToken;
 
         var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
         {
-            question = string.Empty,
-            roles = new[] { "agent" }
+            question = string.Empty
         }, ct);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -53,13 +63,12 @@ public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory
     [Fact]
     public async Task PostQuery_QuestionLongerThanLimit_ReturnsValidationProblem()
     {
-        var client = _factory.CreateClient();
+        var client = CreateAgentClient();
         var ct = TestContext.Current.CancellationToken;
 
         var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
         {
-            question = new string('a', 2001),
-            roles = new[] { "agent" }
+            question = new string('a', 2001)
         }, ct);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -90,13 +99,12 @@ public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory
     [Fact]
     public async Task PostQuery_HighRiskKeyword_ReturnsOkWithEscalationRequired()
     {
-        var client = _factory.CreateClient();
+        var client = CreateAgentClient();
         var ct = TestContext.Current.CancellationToken;
 
         var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
         {
-            question = "ilaç dozu hakkında yönergeler neler?",
-            roles = new[] { "agent" }
+            question = "ilaç dozu hakkında yönergeler neler?"
         }, ct);
         var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(ct);
 
@@ -109,13 +117,12 @@ public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory
     [Fact]
     public async Task PostQuery_UnknownKeyword_ReturnsOkRefusedAnswer()
     {
-        var client = _factory.CreateClient();
+        var client = CreateAgentClient();
         var ct = TestContext.Current.CancellationToken;
 
         var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
         {
-            question = "tamamen alakasız bilinmeyen konu",
-            roles = new[] { "agent" }
+            question = "tamamen alakasız bilinmeyen konu"
         }, ct);
         var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(ct);
 
@@ -129,14 +136,13 @@ public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory
     [Fact]
     public async Task PostQuery_WithCorrelationIdHeader_EchoesCorrelationIdHeader()
     {
-        var client = _factory.CreateClient();
+        var client = CreateAgentClient();
         var ct = TestContext.Current.CancellationToken;
         using var request = new HttpRequestMessage(HttpMethod.Post, "/api/v1/assistant/query");
         request.Headers.Add(CorrelationIdHeader, "test-correlation-id");
         request.Content = JsonContent.Create(new
         {
-            question = "MR randevu hazırlık bilgisi nedir?",
-            roles = new[] { "agent" }
+            question = "MR randevu hazırlık bilgisi nedir?"
         });
 
         var response = await client.SendAsync(request, ct);
@@ -147,15 +153,112 @@ public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory
     [Fact]
     public async Task PostQuery_WithoutCorrelationIdHeader_GeneratesCorrelationIdHeader()
     {
-        var client = _factory.CreateClient();
+        var client = CreateAgentClient();
+        var ct = TestContext.Current.CancellationToken;
+
+        var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
+        {
+            question = "MR randevu hazırlık bilgisi nedir?"
+        }, ct);
+
+        response.Headers.Contains(CorrelationIdHeader).Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task PostQuery_RequestBodyRolesField_ReturnsBadRequestWithAuthenticationContextMessage()
+    {
+        var client = CreateAgentClient();
         var ct = TestContext.Current.CancellationToken;
 
         var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
         {
             question = "MR randevu hazırlık bilgisi nedir?",
-            roles = new[] { "agent" }
+            roles = new[] { "spoofed-superadmin" }
         }, ct);
 
-        response.Headers.Contains(CorrelationIdHeader).Should().BeTrue();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var body = await response.Content.ReadAsStringAsync(ct);
+        body.Should().Contain("X-Agent-Roles");
+        body.Should().Contain("not allowed");
+    }
+
+    [Fact]
+    public async Task PostQuery_RequestBodyUserIdField_ReturnsBadRequestWithAuthenticationContextMessage()
+    {
+        var client = CreateAgentClient();
+        var ct = TestContext.Current.CancellationToken;
+
+        var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
+        {
+            question = "MR randevu hazırlık bilgisi nedir?",
+            userId = "ghost-user"
+        }, ct);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var body = await response.Content.ReadAsStringAsync(ct);
+        body.Should().Contain("X-Agent-User");
+    }
+
+    [Fact]
+    public async Task PostQuery_UnknownField_ReturnsBadRequest()
+    {
+        var client = CreateAgentClient();
+        var ct = TestContext.Current.CancellationToken;
+
+        var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
+        {
+            question = "MR randevu hazırlık bilgisi nedir?",
+            isAdmin = true
+        }, ct);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task PostQuery_NoAgentHeaders_ReturnsRefusedAnswer()
+    {
+        var client = _factory.CreateClient();
+        var ct = TestContext.Current.CancellationToken;
+
+        var response = await client.PostAsJsonAsync("/api/v1/assistant/query", new
+        {
+            question = "MR randevu hazırlık bilgisi nedir?"
+        }, ct);
+        var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(ct);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        answer.Should().NotBeNull();
+        answer!.Refused.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task PostFeedback_ValidPayload_ReturnsAccepted()
+    {
+        var client = _factory.CreateClient();
+        var ct = TestContext.Current.CancellationToken;
+
+        var response = await client.PostAsJsonAsync("/api/v1/assistant/feedback", new
+        {
+            correlationId = "test-corr-1",
+            helpful = true,
+            reason = "Çok yardımcı oldu"
+        }, ct);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+    }
+
+    [Fact]
+    public async Task PostFeedback_MissingCorrelationId_ReturnsValidationProblem()
+    {
+        var client = _factory.CreateClient();
+        var ct = TestContext.Current.CancellationToken;
+
+        var response = await client.PostAsJsonAsync("/api/v1/assistant/feedback", new
+        {
+            correlationId = string.Empty,
+            helpful = false
+        }, ct);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }

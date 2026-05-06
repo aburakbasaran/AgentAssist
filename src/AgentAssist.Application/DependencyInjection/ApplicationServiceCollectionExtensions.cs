@@ -4,6 +4,7 @@ using AgentAssist.Application.Common;
 using AgentAssist.Domain;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AgentAssist.Application.DependencyInjection;
 
@@ -22,6 +23,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddSingleton<TimeProvider>(TimeProvider.System);
         services.AddScoped<IRequestHandler<AssistantQuery, Result<AssistantAnswer>>, AnswerAssistantQueryHandler>();
         services.AddScoped<IValidator<AssistantQuery>, AssistantQueryValidator>();
+        services.TryAddSingleton<IAgentAssistMetrics, NullAgentAssistMetrics>();
 
         return services;
     }

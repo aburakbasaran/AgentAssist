@@ -1,6 +1,8 @@
 using AgentAssist.Api.Contracts;
+using AgentAssist.Api.Middleware;
 using AgentAssist.Application.Abstractions;
 using AgentAssist.Application.Common;
+using AgentAssist.Application.Feedback;
 using AgentAssist.Domain;
 
 namespace AgentAssist.Api.Endpoints;
@@ -16,30 +18,33 @@ internal static class AssistantEndpoints
 
         group.MapPost("/query", HandleQueryAsync)
             .WithSummary("Answers an assistant query")
-            .WithDescription("Returns a deterministic Phase A mock answer grounded in retrieved chunks.")
+            .WithDescription("Returns a citation-grounded answer or a structured refusal.")
             .Produces<AssistantAnswer>(StatusCodes.Status200OK)
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
+
+        group.MapPost("/feedback", HandleFeedbackAsync)
+            .WithSummary("Records pilot feedback for an assistant answer")
+            .WithDescription("Persists feedback for an answer identified by correlation id.")
+            .Produces(StatusCodes.Status202Accepted)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
         return endpoints;
     }
 
-    private static async Task<Results<Ok<AssistantAnswer>, ValidationProblem, ProblemHttpResult>> HandleQueryAsync(
+    private static async Task<Results<Ok<AssistantAnswer>, ProblemHttpResult>> HandleQueryAsync(
         AssistantQueryRequest request,
+        HttpContext httpContext,
         IRequestHandler<AssistantQuery, Result<AssistantAnswer>> handler,
         CancellationToken ct)
     {
-        var validationErrors = Validate(request);
-        if (validationErrors.Count > 0)
-        {
-            return TypedResults.ValidationProblem(validationErrors);
-        }
-
         var query = new AssistantQuery
         {
             Question = request.Question,
-            UserId = request.UserId,
-            Roles = request.Roles
+            Roles = Array.Empty<string>(),
+            CorrelationId = CorrelationIdMiddleware.GetCurrent(httpContext)
         };
 
         var result = await handler.HandleAsync(query, ct);
@@ -53,28 +58,31 @@ internal static class AssistantEndpoints
             : TypedResults.Problem("Assistant answer was not produced.");
     }
 
-    private static Dictionary<string, string[]> Validate(AssistantQueryRequest request)
+    private static async Task<Results<Accepted, ValidationProblem>> HandleFeedbackAsync(
+        FeedbackRequest request,
+        HttpContext httpContext,
+        IFeedbackSink sink,
+        TimeProvider timeProvider,
+        CancellationToken ct)
     {
-        var results = new List<ValidationResult>();
-        var context = new ValidationContext(request);
-        if (Validator.TryValidateObject(request, context, results, validateAllProperties: true))
+        if (string.IsNullOrWhiteSpace(request.CorrelationId))
         {
-            return [];
-        }
-
-        var errors = new Dictionary<string, string[]>(StringComparer.Ordinal);
-        foreach (var result in results)
-        {
-            var members = result.MemberNames.Any()
-                ? result.MemberNames
-                : [string.Empty];
-
-            foreach (var member in members)
+            return TypedResults.ValidationProblem(new Dictionary<string, string[]>(StringComparer.Ordinal)
             {
-                errors[member] = [result.ErrorMessage ?? "Validation failed."];
-            }
+                [nameof(FeedbackRequest.CorrelationId)] = ["CorrelationId is required."]
+            });
         }
 
-        return errors;
+        var record = new FeedbackRecord
+        {
+            CorrelationId = request.CorrelationId,
+            UserId = null,
+            Helpful = request.Helpful,
+            Reason = request.Reason,
+            Timestamp = timeProvider.GetUtcNow()
+        };
+
+        await sink.WriteAsync(record, ct);
+        return TypedResults.Accepted($"/api/v1/assistant/feedback/{request.CorrelationId}");
     }
 }

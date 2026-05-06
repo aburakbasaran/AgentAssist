@@ -1,7 +1,9 @@
+using AgentAssist.Domain.Exceptions;
+
 namespace AgentAssist.Domain;
 
 /// <summary>
-/// Represents a grounded assistant answer or a structured refusal.
+/// Represents a grounded assistant answer or a structured refusal. A non-refused answer must always carry at least one citation.
 /// </summary>
 public sealed record AssistantAnswer
 {
@@ -41,6 +43,39 @@ public sealed record AssistantAnswer
     public string? RefusalReason { get; init; }
 
     /// <summary>
+    /// Creates a grounded assistant answer from at least one supporting citation.
+    /// </summary>
+    /// <param name="answerText">The grounded answer text.</param>
+    /// <param name="citations">The supporting citations; must contain at least one citation.</param>
+    /// <param name="confidenceLevel">The answer confidence level.</param>
+    /// <param name="riskAssessment">The risk assessment for the original query.</param>
+    /// <returns>A grounded, citation-bearing answer.</returns>
+    /// <exception cref="UngroundedAnswerException">Thrown when no citations are supplied.</exception>
+    public static AssistantAnswer Grounded(
+        string answerText,
+        IReadOnlyList<Citation> citations,
+        ConfidenceLevel confidenceLevel,
+        RiskAssessment riskAssessment)
+    {
+        ArgumentNullException.ThrowIfNull(citations);
+        if (citations.Count is 0)
+        {
+            throw new UngroundedAnswerException();
+        }
+
+        return new AssistantAnswer
+        {
+            AnswerText = answerText,
+            Citations = citations,
+            ConfidenceLevel = confidenceLevel,
+            RiskClass = riskAssessment.RiskClass,
+            EscalationRequired = riskAssessment.EscalationRequired,
+            Refused = false,
+            RefusalReason = null
+        };
+    }
+
+    /// <summary>
     /// Creates a structured refusal answer.
     /// </summary>
     /// <param name="reason">The refusal reason.</param>
@@ -56,4 +91,16 @@ public sealed record AssistantAnswer
         Refused = true,
         RefusalReason = reason
     };
+
+    /// <summary>
+    /// Validates the citation invariant: a non-refused answer must carry at least one citation.
+    /// </summary>
+    /// <exception cref="UngroundedAnswerException">Thrown when the invariant is violated.</exception>
+    public void EnsureCitationInvariant()
+    {
+        if (!Refused && Citations.Count is 0)
+        {
+            throw new UngroundedAnswerException();
+        }
+    }
 }
