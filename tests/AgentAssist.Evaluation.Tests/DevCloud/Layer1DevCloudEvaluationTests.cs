@@ -89,7 +89,7 @@ public sealed class Layer1DevCloudEvaluationTests : IDisposable
                 (int)statusCode,
                 readyHealthy,
                 connectivityProbePassed);
-            var pass = Layer1OutcomeClassifier.PassForCategory(golden, kind);
+            var pass = Layer1OutcomeClassifier.PassForCategory(golden, kind, answer);
 
             caseResults.Add(new Layer1CaseResult(
                 golden.Id,

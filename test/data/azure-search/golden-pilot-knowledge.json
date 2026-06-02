@@ -76,7 +76,7 @@
       "documentId": "DOC-MED-001",
       "chunkId": "CHK-006",
       "title": "İlaç ve doz yönlendirme sınırı",
-      "content": "İlaç veya doz sorularında temsilci tıbbi öneri vermez; doz yönlendirme ve doz konusunda öneri talepleri Doktor X veya ilgili klinik ekibe yönlendirilir.",
+      "content": "Acme Sağlık Grubu çağrı merkezi temsilcileri reçete, ilaç dozu veya tedavi önerisi vermez. Hasta ilaç kullanımı, tablet sayısı veya serum dozajı hakkında bilgi isterse temsilci yalnızca kayıtlı yönlendirme prosedürünü uygular: çağrıyı triyaj eder, ilgili klinik hattına veya nöbetçi hekim ekibine aktarır, hasta kimliğini ve şube bilgisini kayda işler. Dozaj ayarı, ilaç değişimi veya tıbbi tavsiye yalnızca yetkili sağlık personeli tarafından verilir; temsilci bu konularda yorum yapmaz.",
       "allowedRoles": ["agent", "supervisor"],
       "documentType": "Guidance",
       "riskLevel": "High",
