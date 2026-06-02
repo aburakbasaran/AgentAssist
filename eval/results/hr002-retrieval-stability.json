@@ -1,0 +1,154 @@
+{
+  "runStartedUtc": "2026-06-02T18:46:24.8674957+00:00",
+  "caseId": "HR-002",
+  "question": "doz konusunda \u00F6neri",
+  "expectedChunkId": "CHK-006",
+  "minChunkScore": 0.7,
+  "consecutiveRunCount": 10,
+  "delayBetweenRunsMs": 250,
+  "evalMode": "DevCloud",
+  "semanticOnly": true,
+  "statistics": {
+    "count": 10,
+    "min": 0.6866450696047277,
+    "max": 0.6866450696047277,
+    "mean": 0.6866450696047277,
+    "std": 0,
+    "range": 0,
+    "passesAtMinChunkScore": 0,
+    "passRate": 0
+  },
+  "runs": [
+    {
+      "runIndex": 1,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 2,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 3,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 4,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 5,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 6,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 7,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 8,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 9,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    },
+    {
+      "runIndex": 10,
+      "top1ChunkId": "CHK-006",
+      "top1Score": 0.6866450696047277,
+      "chk006Score": 0.6866450696047277,
+      "chk006PassesMinChunkScore": false,
+      "topHits": [
+        {
+          "chunkId": "CHK-006",
+          "normalizedScore": 0.6866450696047277
+        }
+      ]
+    }
+  ],
+  "interpretation": "stable: CHK-006 score did not materially vary across consecutive runs (prior ~0.72 claim was incorrect or a different query/run)."
+}
