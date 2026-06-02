@@ -1,4 +1,5 @@
 using AgentAssist.Domain;
+using AgentAssist.Testing;
 
 namespace AgentAssist.Evaluation.Tests;
 
@@ -34,6 +35,9 @@ public sealed class EvaluationHarnessTests : IClassFixture<EvaluationHarnessFixt
 
     public static TheoryData<string> AdversarialCaseIds =>
         BuildCaseIds("adversarial_prompt_injection");
+
+    public static TheoryData<string> InactiveFilterCaseIds =>
+        BuildCaseIds("inactive_filter");
 
     [Theory]
     [MemberData(nameof(CitationFirstCaseIds))]
@@ -76,6 +80,26 @@ public sealed class EvaluationHarnessTests : IClassFixture<EvaluationHarnessFixt
             .Should()
             .NotContain(citation => citation.ChunkId == outcome.Case.ExpectedRoleRestrictedChunkId,
                 $"case {caseId} must not leak supervisor-only chunk {outcome.Case.ExpectedRoleRestrictedChunkId} to agent role");
+    }
+
+    [Theory]
+    [MemberData(nameof(InactiveFilterCaseIds))]
+    public void Evaluation_InactiveFilter_EnforcesInactiveDocumentPolicy(string caseId)
+    {
+        var outcome = _fixture.GetOutcome(caseId);
+        var hostMode = EvalHostConfiguration.ResolveMode();
+
+        if (hostMode is EvalHostMode.Mock)
+        {
+            outcome.Answer.Refused.Should().BeFalse(
+                $"case {caseId}: Mock retrieval has no isActive filter — documents the gap that DevCloud Azure Search must close");
+            outcome.Case.ExpectedRefused.Should().BeTrue(
+                "golden set expects refusal when inactive documents are excluded from retrieval");
+            return;
+        }
+
+        outcome.Answer.Refused.Should().BeTrue($"case {caseId} (inactive_filter) must be refused in DevCloud");
+        outcome.Answer.Citations.Should().BeEmpty($"case {caseId} must not cite inactive sources");
     }
 
     [Theory]

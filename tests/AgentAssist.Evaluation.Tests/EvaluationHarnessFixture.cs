@@ -4,7 +4,7 @@ using System.Text.Json;
 
 using AgentAssist.Domain;
 
-using Microsoft.AspNetCore.Mvc.Testing;
+using AgentAssist.Testing;
 
 namespace AgentAssist.Evaluation.Tests;
 
@@ -24,7 +24,7 @@ public sealed class EvaluationHarnessFixture : IDisposable
         WriteIndented = true
     };
 
-    private readonly WebApplicationFactory<Program> _factory = new();
+    private readonly AgentAssistWebApplicationFactory _factory = new();
     private readonly Lazy<IReadOnlyList<EvaluationOutcome>> _outcomes;
     private readonly TimeProvider _timeProvider;
 
@@ -124,6 +124,7 @@ public sealed class EvaluationHarnessFixture : IDisposable
             var summary = new
             {
                 runStartedUtc,
+                evalMode = EvalHostConfiguration.ResolveMode().ToString(),
                 totalCases = outcomes.Count,
                 refusedCount = outcomes.Count(o => o.Answer.Refused),
                 groundedCount = outcomes.Count(o => !o.Answer.Refused),

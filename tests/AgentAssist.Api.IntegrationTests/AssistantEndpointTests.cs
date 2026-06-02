@@ -1,18 +1,18 @@
 using AgentAssist.Domain;
-using Microsoft.AspNetCore.Mvc.Testing;
+using AgentAssist.Testing;
 
 namespace AgentAssist.Api.IntegrationTests;
 
-public sealed class AssistantEndpointTests : IClassFixture<WebApplicationFactory<Program>>
+public sealed class AssistantEndpointTests : IClassFixture<AgentAssistWebApplicationFactory>
 {
     private const string CorrelationIdHeader = "X-Correlation-Id";
     private const string AgentUserHeader = "X-Agent-User";
     private const string AgentRolesHeader = "X-Agent-Roles";
     private const string AgentLocationHeader = "X-Agent-Location";
 
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly AgentAssistWebApplicationFactory _factory;
 
-    public AssistantEndpointTests(WebApplicationFactory<Program> factory)
+    public AssistantEndpointTests(AgentAssistWebApplicationFactory factory)
     {
         _factory = factory;
     }

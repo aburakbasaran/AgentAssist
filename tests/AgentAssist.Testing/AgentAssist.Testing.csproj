@@ -8,6 +8,8 @@
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="xunit.v3" />
@@ -18,12 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AgentAssist.Testing\AgentAssist.Testing.csproj" />
     <ProjectReference Include="..\..\src\AgentAssist.Api\AgentAssist.Api.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\eval\golden-set.production-pilot.jsonl" Link="golden-set.production-pilot.jsonl" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
