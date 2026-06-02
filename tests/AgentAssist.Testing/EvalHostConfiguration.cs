@@ -8,8 +8,8 @@ namespace AgentAssist.Testing;
 
 /// <summary>
 /// Central configuration for evaluation and integration test hosts. When <c>EVAL_MODE</c> is unset, forces Mock mode
-/// so user-secrets DevCloud settings cannot leak into CI. When <c>EVAL_MODE=DevCloud</c>, applies environment-variable
-/// overrides on top of user-secrets (env wins per key).
+/// so user-secrets DevCloud settings cannot leak into CI. When <c>EVAL_MODE=DevCloud</c>, loads user-secrets, applies
+/// environment-variable overrides on top (env wins per key), and can force semantic-only retrieval defaults.
 /// </summary>
 public static class EvalHostConfiguration
 {
@@ -18,9 +18,16 @@ public static class EvalHostConfiguration
     /// </summary>
     public const string EvalModeEnvironmentVariable = "EVAL_MODE";
 
+    /// <summary>
+    /// When <c>true</c> (default for DevCloud eval), forces empty vector and embedding deployment so retrieval matches semantic-only pilot config.
+    /// Set to <c>false</c> to keep user-secrets / env values for hybrid retrieval experiments.
+    /// </summary>
+    public const string EvalSemanticOnlyEnvironmentVariable = "EVAL_SEMANTIC_ONLY";
+
     private static readonly string[] DevCloudOverlayKeys =
     [
         $"{AgentAssistOptions.SectionName}:Mode",
+        $"{AgentAssistOptions.SectionName}:MinChunkScore",
         "AzureSearch:Endpoint",
         "AzureSearch:IndexName",
         "AzureSearch:SemanticConfigurationName",
@@ -40,6 +47,15 @@ public static class EvalHostConfiguration
         return string.Equals(raw, nameof(EvalHostMode.DevCloud), StringComparison.OrdinalIgnoreCase)
             ? EvalHostMode.DevCloud
             : EvalHostMode.Mock;
+    }
+
+    /// <summary>
+    /// Whether DevCloud eval runs should apply semantic-only overrides (empty vector + embedding deployment).
+    /// </summary>
+    public static bool UseSemanticOnlyRetrieval()
+    {
+        var raw = Environment.GetEnvironmentVariable(EvalSemanticOnlyEnvironmentVariable);
+        return !string.Equals(raw, "false", StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -64,7 +80,9 @@ public static class EvalHostConfiguration
                 return;
             }
 
-            configBuilder.AddInMemoryCollection(BuildDevCloudEnvironmentOverlay());
+            // reason: WebApplicationFactory does not always surface Api user-secrets the same way as dotnet run; load explicitly.
+            configBuilder.AddUserSecrets(typeof(Program).Assembly, optional: true);
+            configBuilder.AddInMemoryCollection(BuildDevCloudOverlay());
         });
     }
 
@@ -74,12 +92,18 @@ public static class EvalHostConfiguration
             [$"{AgentAssistOptions.SectionName}:Mode"] = nameof(AgentAssistMode.Mock)
         };
 
-    private static Dictionary<string, string?> BuildDevCloudEnvironmentOverlay()
+    private static Dictionary<string, string?> BuildDevCloudOverlay()
     {
         var overlay = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase)
         {
             [$"{AgentAssistOptions.SectionName}:Mode"] = nameof(AgentAssistMode.DevCloud)
         };
+
+        if (UseSemanticOnlyRetrieval())
+        {
+            overlay["AzureSearch:VectorFieldName"] = string.Empty;
+            overlay["AzureOpenAI:EmbeddingDeploymentName"] = string.Empty;
+        }
 
         foreach (var configKey in DevCloudOverlayKeys)
         {
