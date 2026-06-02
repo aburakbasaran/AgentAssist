@@ -1,0 +1,331 @@
+{
+  "runStartedUtc": "2026-06-02T18:10:44.8551254+00:00",
+  "thresholds": [
+    0.5,
+    0.6,
+    0.7
+  ],
+  "recommendedMinChunkScore": 0.7,
+  "recommendationRationale": "Prefer the highest threshold where every AC case retrieves the expected chunkId in the top-1 semantic hit and no off-domain chunk (e.g. CHK-001 on unrelated queries) dominates AC targets.",
+  "acCasesWithExpectedTop1At07": 6,
+  "rows": [
+    {
+      "caseId": "AC-001",
+      "question": "MR randevu haz\u0131rl\u0131k bilgisi nedir?",
+      "roles": [
+        "agent"
+      ],
+      "expectedChunkId": "CHK-001",
+      "topChunks": [
+        {
+          "chunkId": "CHK-001",
+          "score": 0.7491749206495767,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": true
+          }
+        },
+        {
+          "chunkId": "CHK-002",
+          "score": 0.6491519549180391,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        }
+      ],
+      "top1ChunkId": "CHK-001",
+      "top1IsExpected": true,
+      "thresholdSummary": {
+        "0.5": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.6": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.7": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        }
+      }
+    },
+    {
+      "caseId": "AC-002",
+      "question": "Lab numune kabul saatleri",
+      "roles": [
+        "agent"
+      ],
+      "expectedChunkId": "CHK-004",
+      "topChunks": [
+        {
+          "chunkId": "CHK-004",
+          "score": 0.7767988290078336,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": true
+          }
+        },
+        {
+          "chunkId": "CHK-001",
+          "score": 0.5753474135859439,
+          "passesAt": {
+            "0.5": true,
+            "0.6": false,
+            "0.7": false
+          }
+        }
+      ],
+      "top1ChunkId": "CHK-004",
+      "top1IsExpected": true,
+      "thresholdSummary": {
+        "0.5": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.6": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.7": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        }
+      }
+    },
+    {
+      "caseId": "AC-003",
+      "question": "Kampanya kapsam\u0131 \u015Fube fark\u0131",
+      "roles": [
+        "agent"
+      ],
+      "expectedChunkId": "CHK-003",
+      "topChunks": [
+        {
+          "chunkId": "CHK-003",
+          "score": 0.765402444917757,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": true
+          }
+        },
+        {
+          "chunkId": "CHK-002",
+          "score": 0.6158270881900076,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        },
+        {
+          "chunkId": "CHK-004",
+          "score": 0.6140400826302927,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        },
+        {
+          "chunkId": "CHK-001",
+          "score": 0.5777626080420024,
+          "passesAt": {
+            "0.5": true,
+            "0.6": false,
+            "0.7": false
+          }
+        }
+      ],
+      "top1ChunkId": "CHK-003",
+      "top1IsExpected": true,
+      "thresholdSummary": {
+        "0.5": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.6": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.7": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        }
+      }
+    },
+    {
+      "caseId": "AC-004",
+      "question": "\u015Eube transfer prosed\u00FCr\u00FC ad\u0131mlar\u0131",
+      "roles": [
+        "supervisor"
+      ],
+      "expectedChunkId": "CHK-005",
+      "topChunks": [
+        {
+          "chunkId": "CHK-005",
+          "score": 0.7751622705249398,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": true
+          }
+        },
+        {
+          "chunkId": "CHK-004",
+          "score": 0.6599159111006461,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        },
+        {
+          "chunkId": "CHK-002",
+          "score": 0.6433187945678345,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        },
+        {
+          "chunkId": "CHK-001",
+          "score": 0.6156177115909391,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        }
+      ],
+      "top1ChunkId": "CHK-005",
+      "top1IsExpected": true,
+      "thresholdSummary": {
+        "0.5": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.6": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.7": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        }
+      }
+    },
+    {
+      "caseId": "AC-005",
+      "question": "Yabanc\u0131 hasta evrak s\u00FCreci ad\u0131mlar\u0131",
+      "roles": [
+        "agent"
+      ],
+      "expectedChunkId": "CHK-002",
+      "topChunks": [
+        {
+          "chunkId": "CHK-002",
+          "score": 0.7703299397852472,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": true
+          }
+        },
+        {
+          "chunkId": "CHK-004",
+          "score": 0.6537381414012278,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        },
+        {
+          "chunkId": "CHK-001",
+          "score": 0.6058434871320374,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        }
+      ],
+      "top1ChunkId": "CHK-002",
+      "top1IsExpected": true,
+      "thresholdSummary": {
+        "0.5": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.6": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.7": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        }
+      }
+    },
+    {
+      "caseId": "AC-006",
+      "question": "randevu haz\u0131rl\u0131k formu i\u00E7eri\u011Fi",
+      "roles": [
+        "agent"
+      ],
+      "expectedChunkId": "CHK-001",
+      "topChunks": [
+        {
+          "chunkId": "CHK-001",
+          "score": 0.7571216004121105,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": true
+          }
+        },
+        {
+          "chunkId": "CHK-002",
+          "score": 0.679011850599035,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        },
+        {
+          "chunkId": "CHK-004",
+          "score": 0.6289640425515728,
+          "passesAt": {
+            "0.5": true,
+            "0.6": true,
+            "0.7": false
+          }
+        }
+      ],
+      "top1ChunkId": "CHK-001",
+      "top1IsExpected": true,
+      "thresholdSummary": {
+        "0.5": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.6": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        },
+        "0.7": {
+          "expectedTop1Retrieved": true,
+          "expectedInResultSet": true
+        }
+      }
+    }
+  ]
+}
