@@ -1,0 +1,1524 @@
+{
+  "runStartedUtc": "2026-06-03T07:53:00.6129469+00:00",
+  "runStatus": "completed",
+  "casesCompleted": 8,
+  "casesTotal": 8,
+  "elapsedSeconds": 366.7451938,
+  "evalMode": "DevCloud",
+  "layer": 2,
+  "runsPerCase": 3,
+  "executionMode": "serial",
+  "incrementalWriteNote": "layer2-quality-latest.json updated after each case completes",
+  "resilience": {
+    "library": "Polly",
+    "version": "8.5.2",
+    "maxRetryAttempts": 6,
+    "backoff": "exponential with jitter",
+    "appliesTo": [
+      "producer /api/v1/assistant/query",
+      "judge GroundednessEvaluator",
+      "judge RelevanceTruthAndCompletenessEvaluator"
+    ]
+  },
+  "groundedCaseIds": [
+    "AC-001",
+    "AC-002",
+    "AC-003",
+    "AC-004",
+    "AC-005",
+    "AC-006",
+    "HR-001",
+    "HR-003"
+  ],
+  "judgeModelDeployment": "agentassist-chat-gpt-4o-mini",
+  "judgeSameAsProducer": true,
+  "selfGradingBiasNote": "Judge and producer share the same IChatClient deployment (self-grading); report scores without inflating.",
+  "contextSourceConfirmation": "Groundedness grounding context = exact UserMessageSentToModel from TranscriptCapturingChatClient (includes Retrieved chunks block). No second SearchAsync.",
+  "rateLimitNote": "Runs/cases marked \u00F6l\u00E7\u00FClemedi (rate limit) when Polly retries are exhausted on HTTP 429; those scores are not written into distributions.",
+  "totalScoredRuns": 24,
+  "totalRateLimitFailures": 0,
+  "evaluators": [
+    "GroundednessEvaluator",
+    "RelevanceTruthAndCompletenessEvaluator"
+  ],
+  "tokenUsageEstimate": {
+    "note": "Per scored run: \u22482 judge LLM calls \u002B 1 producer call; exact token counts not on EvaluationResult.Metadata in this harness.",
+    "scoredRunsApprox": 24,
+    "judgeCallsApprox": 48,
+    "producerCallsApprox": 24
+  },
+  "cases": [
+    {
+      "caseId": "AC-001",
+      "question": "MR randevu haz\u0131rl\u0131k bilgisi nedir?",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 466,
+          "producerAnswerText": "MR randevusu \u00F6ncesinde metal aksesuarlar \u00E7\u0131kar\u0131l\u0131r ve \u015Eube A dan\u0131\u015Fmas\u0131 haz\u0131rl\u0131k formunu kontrol eder. Haz\u0131rl\u0131k formu; metal listesi, dan\u0131\u015Fma onay\u0131, kontrast alerji ve b\u00F6brek fonksiyon alanlar\u0131n\u0131 kapsar. Hasta i\u015Flem \u00F6ncesinde saat, tak\u0131, kemer ve manyetik etkilenebilecek e\u015Fya bulundurmamal\u0131d\u0131r.",
+          "citationIds": [
+            "CHK-001"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately reflects all relevant details from the context about MR appointment preparation, directly addressing the question without missing any important information or including irrelevant content.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 466,
+          "producerAnswerText": "MR randevusu \u00F6ncesinde metal aksesuarlar\u0131n \u00E7\u0131kar\u0131lmas\u0131 gerekmektedir. \u015Eube A dan\u0131\u015Fmas\u0131, haz\u0131rl\u0131k formunu kontrol eder. Randevu haz\u0131rl\u0131k formu metal listesi, dan\u0131\u015Fma onay\u0131, kontrast alerji ve b\u00F6brek fonksiyon alanlar\u0131n\u0131 i\u00E7erir. Hasta i\u015Flem \u00F6ncesinde saat, tak\u0131, kemer ve manyetik etkilenebilecek e\u015Fyalar\u0131 bulundurmamal\u0131d\u0131r.",
+          "citationIds": [
+            "CHK-001"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately addresses the question using all relevant details from the context without omission or error, making it a complete and correct answer.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 466,
+          "producerAnswerText": "MR randevusu \u00F6ncesinde metal aksesuarlar \u00E7\u0131kar\u0131l\u0131r ve dan\u0131\u015Fma haz\u0131rl\u0131k formu kontrol edilir. Haz\u0131rl\u0131k formu metal listesi, dan\u0131\u015Fma onay\u0131, kontrast alerjisi ve b\u00F6brek fonksiyonlar\u0131n\u0131 kapsar. Hasta i\u015Flem \u00F6ncesinde saat, tak\u0131, kemer ve manyetik etkilenebilecek e\u015Fyalar\u0131 bulundurmamal\u0131d\u0131r.",
+          "citationIds": [
+            "CHK-001"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately addresses the question using all relevant details from the context, making it a complete and correct answer.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        }
+      }
+    },
+    {
+      "caseId": "AC-002",
+      "question": "Lab numune kabul saatleri",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 284,
+          "producerAnswerText": "Lab numune kabul saatleri \u015Eube A i\u00E7in 08:00-11:00, \u015Eube B i\u00E7in 08:30-11:30 aras\u0131ndad\u0131r. Numune kabul\u00FC i\u00E7in hasta kimli\u011Fi ve y\u00F6nlendirme formu gereklidir.",
+          "citationIds": [
+            "CHK-004"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately provides the lab sample acceptance hours for both branches and includes the necessary documentation requirements, exactly as stated in the context, making it a complete and correct answer.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 284,
+          "producerAnswerText": "Lab numune kabul saatleri \u015Eube A i\u00E7in 08:00-11:00, \u015Eube B i\u00E7in 08:30-11:30 aras\u0131ndad\u0131r.",
+          "citationIds": [
+            "CHK-004"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 4,
+            "reason": "The response correctly and fully answers the question about lab sample acceptance hours for both branches but omits the additional requirement details. It is accurate and relevant but not fully complete.",
+            "interpretationFailed": false,
+            "interpretationRating": 5,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 4,
+              "reason": "The response provides the lab sample acceptance hours for both branches but omits the additional requirement about patient ID and referral form needed for sample acceptance.",
+              "interpretationFailed": false,
+              "interpretationRating": 5,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 284,
+          "producerAnswerText": "Lab numune kabul saatleri \u015Eube A i\u00E7in 08:00-11:00, \u015Eube B i\u00E7in 08:30-11:30 aral\u0131\u011F\u0131ndad\u0131r. Numune kabul\u00FC i\u00E7in hasta kimli\u011Fi ve y\u00F6nlendirme formu zorunludur.",
+          "citationIds": [
+            "CHK-004"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response is fully correct and complete, directly answering the question with all relevant details from the context without adding unrelated information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 4,
+          "max": 5,
+          "mean": 4.666666666666667,
+          "std": 0.4714045207910317,
+          "confidence95Lower": 3.495538404089332,
+          "confidence95Upper": 5.8377949292440015
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 4,
+          "max": 5,
+          "mean": 4.666666666666667,
+          "std": 0.4714045207910317,
+          "confidence95Lower": 3.495538404089332,
+          "confidence95Upper": 5.8377949292440015
+        }
+      }
+    },
+    {
+      "caseId": "AC-003",
+      "question": "Kampanya kapsam\u0131 \u015Fube fark\u0131",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 311,
+          "producerAnswerText": "Kampanya kapsam\u0131 \u015Eube A ve \u015Eube C i\u00E7in farkl\u0131 olabilir; temsilci sadece ge\u00E7erli kampanya dok\u00FCman\u0131ndaki ko\u015Fullar\u0131 aktar\u0131r. Bu nedenle, \u015Fube fark\u0131 nedeniyle kampanya kapsam\u0131 ve indirim oranlar\u0131 de\u011Fi\u015Fiklik g\u00F6sterebilir.",
+          "citationIds": [
+            "CHK-003"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately reflects the information in the context, directly answering the question about branch differences in campaign scope without adding or omitting details.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 311,
+          "producerAnswerText": "Kampanya kapsam\u0131 \u015Eube A ve \u015Eube C i\u00E7in farkl\u0131 olabilir; \u015Fube fark\u0131 nedeniyle kapsam ve indirim oranlar\u0131 de\u011Fi\u015Febilir. Temsilci yaln\u0131zca ge\u00E7erli kampanya dok\u00FCman\u0131ndaki ko\u015Fullar\u0131 aktar\u0131r.",
+          "citationIds": [
+            "CHK-003"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately reflects the information in the context, directly addressing the query about branch differences in campaign coverage without missing any details or adding unrelated information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 311,
+          "producerAnswerText": "Kampanya kapsam\u0131, \u015Fube baz\u0131nda farkl\u0131l\u0131k g\u00F6sterebilir. \u00D6rne\u011Fin, \u015Eube A ve \u015Eube C i\u00E7in kampanya kapsam\u0131 ve indirim oranlar\u0131 de\u011Fi\u015Fiklik g\u00F6sterebilir. Temsilci sadece ge\u00E7erli kampanya dok\u00FCman\u0131ndaki ko\u015Fullar\u0131 aktar\u0131r.",
+          "citationIds": [
+            "CHK-003"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately addresses the query using all relevant details from the provided context, making it a complete and correct answer.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        }
+      }
+    },
+    {
+      "caseId": "AC-004",
+      "question": "\u015Eube transfer prosed\u00FCr\u00FC ad\u0131mlar\u0131",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 338,
+          "producerAnswerText": "\u015Eube transfer prosed\u00FCr\u00FC ad\u0131mlar\u0131: Acme Sa\u011Fl\u0131k Grubu i\u00E7 formu a\u00E7\u0131l\u0131r, kaynak \u015Eube A ve hedef \u015Eube C operasyon ekipleri bilgilendirilir. Transfer prosed\u00FCr\u00FC detay ve \u015Fube transfer talebi bu ak\u0131\u015Fa tabidir.",
+          "citationIds": [
+            "CHK-005"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response exactly matches the information provided in the context, fully addressing the question with all relevant details and no extraneous or incorrect information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 2,
+              "reason": "The response provides a brief overview of the transfer procedure but lacks detailed step-by-step instructions or comprehensive information about the process.",
+              "interpretationFailed": true,
+              "interpretationRating": 3,
+              "interpretationReason": "Completeness (RTC) is less than 4."
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 338,
+          "producerAnswerText": "\u015Eube transfer prosed\u00FCr\u00FC ad\u0131mlar\u0131: Acme Sa\u011Fl\u0131k Grubu i\u00E7 formu a\u00E7\u0131l\u0131r, kaynak \u015Eube A ve hedef \u015Eube C operasyon ekipleri bilgilendirilir. Transfer prosed\u00FCr\u00FC detay ve \u015Fube transfer talebi bu ak\u0131\u015Fa tabidir.",
+          "citationIds": [
+            "CHK-005"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response exactly matches the context and fully answers the question about the branch transfer procedure steps without adding or omitting any information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 2,
+              "reason": "The response provides a brief overview of the transfer procedure but lacks detailed step-by-step instructions or comprehensive information about the process.",
+              "interpretationFailed": true,
+              "interpretationRating": 3,
+              "interpretationReason": "Completeness (RTC) is less than 4."
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 338,
+          "producerAnswerText": "\u015Eube transfer prosed\u00FCr\u00FC ad\u0131mlar\u0131: Acme Sa\u011Fl\u0131k Grubu i\u00E7 formu a\u00E7\u0131l\u0131r, kaynak \u015Eube A ve hedef \u015Eube C operasyon ekipleri bilgilendirilir. Transfer prosed\u00FCr\u00FC detay ve \u015Fube transfer talebi bu ak\u0131\u015Fa tabidir.",
+          "citationIds": [
+            "CHK-005"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately reflects the information in the context, directly addressing the query with all relevant details and no extraneous or incorrect information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 2,
+              "reason": "The response provides a brief overview of the transfer procedure but lacks detailed step-by-step instructions or comprehensive information about the process.",
+              "interpretationFailed": true,
+              "interpretationRating": 3,
+              "interpretationReason": "Completeness (RTC) is less than 4."
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 2,
+          "max": 2,
+          "mean": 2,
+          "std": 0,
+          "confidence95Lower": 2,
+          "confidence95Upper": 2
+        }
+      }
+    },
+    {
+      "caseId": "AC-005",
+      "question": "Yabanc\u0131 hasta evrak s\u00FCreci ad\u0131mlar\u0131",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 332,
+          "producerAnswerText": "Yabanc\u0131 hasta evrak s\u00FCreci ad\u0131mlar\u0131 \u015Funlard\u0131r: \u00F6n kay\u0131t, evrak do\u011Frulama, randevu onay\u0131. Bu s\u00FCre\u00E7te pasaport kopyas\u0131, ileti\u015Fim formu ve Acme Sa\u011Fl\u0131k Grubu \u015Eube B kay\u0131t onay\u0131 birlikte kontrol edilir.",
+          "citationIds": [
+            "CHK-002"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response is fully correct and complete, accurately listing all the steps and relevant document checks from the context without adding unrelated information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 332,
+          "producerAnswerText": "Yabanc\u0131 hasta evrak s\u00FCreci ad\u0131mlar\u0131 \u015Funlard\u0131r: \u00F6n kay\u0131t, evrak do\u011Frulama ve randevu onay\u0131. Bu s\u00FCre\u00E7te pasaport kopyas\u0131, ileti\u015Fim formu ve Acme Sa\u011Fl\u0131k Grubu \u015Eube B kay\u0131t onay\u0131 birlikte kontrol edilir.",
+          "citationIds": [
+            "CHK-002"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately answers the question by listing all the steps and relevant document checks mentioned in the context, without adding unrelated or incorrect information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 332,
+          "producerAnswerText": "Yabanc\u0131 hasta evrak s\u00FCrecinde ad\u0131mlar \u015Fu \u015Fekildedir: \u00F6n kay\u0131t yap\u0131lmas\u0131, evraklar\u0131n do\u011Frulanmas\u0131 ve ard\u0131ndan randevu onay\u0131n\u0131n verilmesi gerekir. Evrak kontrol\u00FC s\u0131ras\u0131nda pasaport kopyas\u0131, ileti\u015Fim formu ve Acme Sa\u011Fl\u0131k Grubu \u015Eube B kay\u0131t onay\u0131 birlikte kontrol edilir.",
+          "citationIds": [
+            "CHK-002"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response is fully correct and complete, directly answering the question with all relevant details from the context without adding unrelated information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        }
+      }
+    },
+    {
+      "caseId": "AC-006",
+      "question": "randevu haz\u0131rl\u0131k formu i\u00E7eri\u011Fi",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 462,
+          "producerAnswerText": "Randevu haz\u0131rl\u0131k formu i\u00E7eri\u011Fi metal listesi, dan\u0131\u015Fma onay\u0131, kontrast alerji ve b\u00F6brek fonksiyon alanlar\u0131n\u0131 kapsar.",
+          "citationIds": [
+            "CHK-001"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 4,
+            "reason": "The response correctly lists the main components of the appointment preparation form as given in the context but omits additional relevant preparatory instructions. Therefore, it is accurate but incomplete, warranting a score of 4.",
+            "interpretationFailed": false,
+            "interpretationRating": 5,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 4,
+              "reason": "The response covers the main components of the randevu haz\u0131rl\u0131k formu content but omits additional preparatory instructions such as removing metal accessories and avoiding magnetic items before the appointment.",
+              "interpretationFailed": false,
+              "interpretationRating": 5,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 462,
+          "producerAnswerText": "Randevu haz\u0131rl\u0131k formu i\u00E7eri\u011Fi metal listesi, dan\u0131\u015Fma onay\u0131, kontrast alerji ve b\u00F6brek fonksiyon alanlar\u0131n\u0131 kapsar. Hasta i\u015Flem \u00F6ncesinde saat, tak\u0131, kemer ve manyetik etkilenebilecek e\u015Fya bulundurmamal\u0131d\u0131r.",
+          "citationIds": [
+            "CHK-001"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately answers the query by listing all the relevant contents of the appointment preparation form as given in the context, including patient instructions, making it a complete and correct answer.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 462,
+          "producerAnswerText": "Randevu haz\u0131rl\u0131k formu i\u00E7eri\u011Fi metal listesi, dan\u0131\u015Fma onay\u0131, kontrast alerji ve b\u00F6brek fonksiyon alanlar\u0131n\u0131 kapsar.",
+          "citationIds": [
+            "CHK-001"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 4,
+            "reason": "The response accurately lists the main components of the appointment preparation form as given in the context but omits additional preparation instructions mentioned. It is correct and relevant but slightly incomplete, so it fits best with a partially correct response.",
+            "interpretationFailed": false,
+            "interpretationRating": 5,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 4,
+              "reason": "The response covers the main components of the randevu haz\u0131rl\u0131k formu content but omits additional preparatory instructions such as removing metal accessories and avoiding magnetic items before the procedure.",
+              "interpretationFailed": false,
+              "interpretationRating": 5,
+              "interpretationReason": null
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 4,
+          "max": 5,
+          "mean": 4.333333333333333,
+          "std": 0.4714045207910317,
+          "confidence95Lower": 3.162205070755998,
+          "confidence95Upper": 5.5044615959106675
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 4,
+          "max": 5,
+          "mean": 4.333333333333333,
+          "std": 0.4714045207910317,
+          "confidence95Lower": 3.162205070755998,
+          "confidence95Upper": 5.5044615959106675
+        }
+      }
+    },
+    {
+      "caseId": "HR-001",
+      "question": "doz y\u00F6nlendirme nedir",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 612,
+          "producerAnswerText": "Doz y\u00F6nlendirme, ila\u00E7 dozu veya tedavi \u00F6nerisi verme yetkisi olmayan \u00E7a\u011Fr\u0131 merkezi temsilcilerinin, hastan\u0131n ila\u00E7 kullan\u0131m\u0131yla ilgili sorular\u0131n\u0131 kayda alarak triyaj yapmas\u0131 ve bu \u00E7a\u011Fr\u0131lar\u0131 ilgili klinik hatt\u0131na veya n\u00F6bet\u00E7i hekim ekibine aktarmas\u0131 s\u00FCrecidir. Dozaj ayar\u0131 ve t\u0131bbi tavsiye yaln\u0131zca yetkili sa\u011Fl\u0131k personeli taraf\u0131ndan yap\u0131l\u0131r.",
+          "citationIds": [
+            "CHK-006"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately explains what dose guidance is according to the context, including the role of call center representatives and the limitation that only authorized health personnel provide dose adjustments or medical advice. It is directly grounded in the provided context and answers the query completely.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 612,
+          "producerAnswerText": "Doz y\u00F6nlendirme, hasta veya hasta yak\u0131nlar\u0131n\u0131n ila\u00E7 dozu veya tedavi \u00F6nerisi ile ilgili sorular\u0131n\u0131 do\u011Frudan yan\u0131tlamak yerine, \u00E7a\u011Fr\u0131 merkezi temsilcisinin bu t\u00FCr talepleri triyaj ederek ilgili klinik hatt\u0131na veya n\u00F6bet\u00E7i hekim ekibine y\u00F6nlendirmesidir. Bu s\u00FCre\u00E7te hasta kimli\u011Fi ve \u015Fube bilgisi kayda al\u0131n\u0131r. Dozaj ayar\u0131 veya t\u0131bbi tavsiye yaln\u0131zca yetkili sa\u011Fl\u0131k personeli taraf\u0131ndan verilir; temsilciler bu konularda yorum yapmaz.",
+          "citationIds": [
+            "CHK-006"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response is fully correct and complete, directly addressing the question with all relevant details from the context about the dose guidance process and the role of call center representatives versus authorized health personnel.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 612,
+          "producerAnswerText": "Doz y\u00F6nlendirme, hasta taraf\u0131ndan doz veya ila\u00E7 kullan\u0131m\u0131 hakk\u0131nda bilgi talep edildi\u011Finde \u00E7a\u011Fr\u0131 merkezi temsilcilerinin bu talepleri ilgili klinik hatlar\u0131na veya n\u00F6bet\u00E7i hekim ekibine aktarmas\u0131 s\u00FCrecidir. Temsilciler do\u011Frudan dozaj ayar\u0131 veya t\u0131bbi tavsiye vermez; sadece kay\u0131tl\u0131 y\u00F6nlendirme prosed\u00FCr\u00FCn\u00FC uygularlar.",
+          "citationIds": [
+            "CHK-006"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately explains what \u0022doz y\u00F6nlendirme\u0022 is based on the provided context, including the role of call center representatives and the referral procedure, without omitting any important details or adding unrelated information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        }
+      }
+    },
+    {
+      "caseId": "HR-003",
+      "question": "hasta evrak s\u00FCreci",
+      "runsRequested": 3,
+      "runsScored": 3,
+      "rateLimitFailures": 0,
+      "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+      "includedInDistribution": true,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 315,
+          "producerAnswerText": "Hasta evrak s\u00FCreci ad\u0131mlar\u0131 \u00F6n kay\u0131t, evrak do\u011Frulama ve randevu onay\u0131d\u0131r. Yabanc\u0131 hastalar i\u00E7in pasaport kopyas\u0131, ileti\u015Fim formu ve Acme Sa\u011Fl\u0131k Grubu \u015Eube B kay\u0131t onay\u0131 birlikte kontrol edilir.",
+          "citationIds": [
+            "CHK-002"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response is fully correct and complete, accurately reflecting all relevant details from the context about the patient document process, including the steps and the specific requirements for foreign patients.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 2,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 315,
+          "producerAnswerText": "Hasta evrak s\u00FCreci ad\u0131mlar\u0131: \u00F6n kay\u0131t, evrak do\u011Frulama, randevu onay\u0131d\u0131r. Yabanc\u0131 hastalar i\u00E7in pasaport kopyas\u0131, ileti\u015Fim formu ve Acme Sa\u011Fl\u0131k Grubu \u015Eube B kay\u0131t onay\u0131 birlikte kontrol edilir.",
+          "citationIds": [
+            "CHK-002"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response fully and accurately answers the question by listing the patient document process steps and specifying the documents required for foreign patients, exactly as provided in the context. It is complete, relevant, and grounded in the given information.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 4,
+              "reason": "The response covers the main steps of the patient document process and specific requirements for foreign patients, but it could be more detailed about each step or include additional context.",
+              "interpretationFailed": false,
+              "interpretationRating": 5,
+              "interpretationReason": null
+            }
+          }
+        },
+        {
+          "runIndex": 3,
+          "skipped": false,
+          "contextSource": "TranscriptCapturingChatClient.UserMessageSentToModel",
+          "contextContainsRetrievedChunks": true,
+          "contextLength": 315,
+          "producerAnswerText": "Hasta evrak s\u00FCreci ad\u0131mlar\u0131 \u00F6n kay\u0131t, evrak do\u011Frulama ve randevu onay\u0131n\u0131 i\u00E7erir. Yabanc\u0131 hastalar i\u00E7in pasaport kopyas\u0131, ileti\u015Fim formu ve Acme Sa\u011Fl\u0131k Grubu \u015Eube B kay\u0131t onay\u0131 birlikte kontrol edilir.",
+          "citationIds": [
+            "CHK-002"
+          ],
+          "groundedness": {
+            "name": "Groundedness",
+            "value": 5,
+            "reason": "The response is fully correct and complete, directly reflecting all relevant details from the context about the patient document process, including both general steps and foreign patient specifics.",
+            "interpretationFailed": false,
+            "interpretationRating": 6,
+            "interpretationReason": null
+          },
+          "relevanceRtc": {
+            "relevance": {
+              "name": "Relevance (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% related to the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "truth": {
+              "name": "Truth (RTC)",
+              "value": 5,
+              "reason": "100% of the response is 100% true",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            },
+            "completeness": {
+              "name": "Completeness (RTC)",
+              "value": 5,
+              "reason": "The response includes all points that are necessary to address the request",
+              "interpretationFailed": false,
+              "interpretationRating": 6,
+              "interpretationReason": null
+            }
+          }
+        }
+      ],
+      "distributions": {
+        "groundedness": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "relevance": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "truth": {
+          "count": 3,
+          "min": 5,
+          "max": 5,
+          "mean": 5,
+          "std": 0,
+          "confidence95Lower": 5,
+          "confidence95Upper": 5
+        },
+        "completeness": {
+          "count": 3,
+          "min": 4,
+          "max": 5,
+          "mean": 4.666666666666667,
+          "std": 0.4714045207910317,
+          "confidence95Lower": 3.495538404089332,
+          "confidence95Upper": 5.8377949292440015
+        }
+      }
+    }
+  ]
+}

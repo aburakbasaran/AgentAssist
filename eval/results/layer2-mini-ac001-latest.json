@@ -1,0 +1,17 @@
+{
+  "runStartedUtc": "2026-06-03T07:51:06.4282047+00:00",
+  "purpose": "mini_validation_capacity_smoke",
+  "caseId": "AC-001",
+  "runsPerCase": 1,
+  "judgeModelDeployment": "agentassist-chat-gpt-4o-mini",
+  "rateLimited": false,
+  "producerRateLimit": false,
+  "totalScoredRuns": 1,
+  "includedInDistribution": true,
+  "measurementStatus": "\u00F6l\u00E7\u00FCld\u00FC",
+  "elapsedSeconds": 26.2497865,
+  "scores": {
+    "groundedness": 5,
+    "relevance": 5
+  }
+}

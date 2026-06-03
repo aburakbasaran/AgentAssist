@@ -54,3 +54,55 @@ Operational notes and “dirty truths” discovered while wiring DevCloud and th
 **HR-001 index:** CHK-006 enriched with natural call-centre triage procedure text (no verbatim copy of golden questions). After re-upload, semantic top-1 for `doz yönlendirme nedir` crossed **0.7** (~0.715); Katman 1 HR-001 is **grounded + citation + escalation** (not a trade-off).
 
 **HR-002 threshold borderline:** Golden now expects refusal + escalation (no citation on refusal path). When CHK-006 reranker score is ≥0.7 (~0.72), the real model refuses with escalation (safe). When score dips (~0.69), orchestrator no-source fires — Katman 1 correctly **does not** count that as high-risk safe refusal. Same query can flip between runs; article line: retrieval threshold is a deliberate precision/recall trade-off.
+
+## 2026-06-02 — FAZ 4 (Katman 2): quality metrics — durum kaydı (devam öncesi)
+
+**Hedef:** `Microsoft.Extensions.AI.Evaluation` ile groundedness + Relevance/Truth/Completeness (RTC) dağılımları; yalnızca grounded vakalar (`AC-001`…`AC-006`, `HR-001`, `HR-003`). Application/Domain’e dokunulmuyor.
+
+**Tamamlanan ön iş (commit `e1b8c15` ayrı):** HR-002 retrieval stability (10 koşu, ~0.687 deterministik).
+
+**Katman 2 kod (eval test projesi, henüz başarılı artefakt yok):**
+
+- `Layer2DevCloudQualityEvaluationTests` — üretici `/api/v1/assistant/query`, hakem aynı deployment (`TranscriptCapturingChatClient.Inner`), bağlam = `UserMessageSentToModel` (Retrieved chunks bloğu; ikinci Search yok).
+- `Layer2DistributionStatistics` — min/max/mean/std, %95 CI (N=3 için t çarpanı).
+- `TranscriptCapturingChatClient.Inner` — hakem çağrısı üretici transkriptini ezmez.
+- Paketler: `Microsoft.Extensions.AI.Evaluation` + `.Quality` 10.6.0; `AIEVAL001` susturuldu (RTC deneysel).
+
+**Koşu denemeleri ve engel:**
+
+- DevCloud capacity-1 deployment’ta **HTTP 429** (özellikle hakem/judge LLM çağrıları; üretici de etkilenebilir).
+- İlk koşular ~2–25 dk aralığında tamamlanamadı veya kullanıcı kesildi; **`eval/results/layer2-quality-*.json` henüz üretilmedi** (glob boş).
+- Manuel try/catch + backoff yeterli değil — kullanıcı kararı: **Polly v8** ile üretici + hakem sarılacak; retry tükenince vaka **ölçülemedi (rate limit)** işaretlenip dağılıma **dahil edilmeyecek** (sahte 0/düşük skor yok).
+
+**Uygulanan tasarım kararları (bu oturum):**
+
+- **N=3**, **seri** koşu (paralel yok); koşular/case arası küçük gecikme (2s / 3s / 5s).
+- **Polly 8.5.2** yalnız `AgentAssist.Evaluation.Tests` (`Layer2AzureResilience`); 429 + transient HTTP; exponential backoff + jitter, max 6 retry.
+- Dağılım yalnız `runsScored > 0` iken yazılır; tamamen rate-limit olan case → `measurementStatus: ölçülemedi (rate limit)`, `includedInDistribution: false`.
+
+**Sıradaki:** `Layer2_DevCloud_QualityMetrics_WriteResults` koştur → `eval/results/layer2-quality-latest.json` + makale özeti (düşük skor judge reason, self-grading bias, token tahmini).
+
+## 2026-06-03 — FAZ 4: Katman 2 tam koşu (capacity 30)
+
+**Ön koşul:** Deployment capacity 1→30 (`agentassist-chat-gpt-4o-mini` / gpt-4.1-mini). Mini smoke AC-001 N=1: groundedness 5, relevance 5, 429 yok, ~26s.
+
+**Tam koşu:** 8 grounded case × N=3 seri; Polly retry açık; artımlı `layer2-quality-latest.json` her case sonrası. Süre **~6.1 dk** (366s); 429 yok; **24/24** scored.
+
+**Artefakt:** `eval/results/layer2-quality-20260603-075300.json`, `layer2-quality-latest.json`.
+
+**Dürüst özet (1–5 ölçek, self-grading aynı deployment):**
+
+| Case | G mean | R mean | T mean | C mean | Not |
+|------|--------|--------|--------|--------|-----|
+| AC-001 | 5.0 | 5.0 | 5.0 | 5.0 | |
+| AC-002 | 4.67 | 5.0 | 5.0 | 4.67 | run2: G=4 (saatler doğru, ek gereksinimler eksik) |
+| AC-003 | 5.0 | 5.0 | 5.0 | 5.0 | |
+| AC-004 | 5.0 | 5.0 | 5.0 | **2.0** | 3/3 run: completeness=2 — “brief overview, lacks step-by-step” (groundedness 5) |
+| AC-005 | 5.0 | 5.0 | 5.0 | 5.0 | |
+| AC-006 | 4.33 | 5.0 | 5.0 | 4.33 | G/C=4: form içeriği doğru ama metal aksesuar vb. hazırlık talimatları eksik |
+| HR-001 | 5.0 | 5.0 | 5.0 | 5.0 | |
+| HR-003 | 5.0 | 5.0 | 5.0 | 4.67 | run2 completeness=4 |
+
+**Makale notu:** AC-004 completeness düşük skoru, kısa üretici cevabına karşı hakem “yeterince detaylı prosedür yok” diyor — groundedness yine 5; self-grading bias ve completeness–groundedness ayrışması raporlanmalı.
+
+**Önceki capacity-1 koşu:** 5h+, 0 scored, tümü 429 — artık geçersiz referans.

@@ -7,6 +7,9 @@ namespace AgentAssist.Evaluation.Tests.DevCloud;
 /// </summary>
 public sealed class TranscriptCapturingChatClient(IChatClient inner, ChatTranscriptCollector collector) : IChatClient
 {
+    /// <summary>Underlying client (e.g. for judge LLM in Layer 2 without overwriting the producer transcript).</summary>
+    public IChatClient Inner => inner;
+
     public Task<ChatResponse> GetResponseAsync(
         IEnumerable<ChatMessage> messages,
         ChatOptions? options = null,
