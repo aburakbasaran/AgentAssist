@@ -14,9 +14,9 @@ The healthcare-flavored documents in this repository are illustrative. They use 
 
 This repo is the companion for:
 
-1. [Chatbot Değil Sistem Tasarlamak — Güvenli Sistemler Oluşturmak #1](https://medium.com/@a.burakbasaran/chatbot-değil-sistem-tasarlamak-güvenli-sistemler-oluşturmak-1-9976a86a2d9d)
-2. [““Bilmiyorum Diyebilen Yapay Zekâ— Refusal ve Citation Sözleşmesini .NET 10'da Kodlamak (Güvenli Sistemler Oluşturmak #2)](https://medium.com/@a.burakbasaran/bilmiyorum-diyebilen-yapay-zekâ-refusal-ve-citation-sözleşmesini-net-ebfc686b9071)
-3. [“Mock Değil, Gerçek Model : Refusal ve Citation Sözleşmesini Azure’da Ölçmek (Güvenli Sistemler Oluşturmak #3)](hhttps://medium.com/@a.burakbasaran/mock-de%C4%9Fil-ger%C3%A7ek-model-refusal-ve-citation-s%C3%B6zle%C5%9Fmesini-azureda-%C3%B6l%C3%A7mek-g%C3%BCvenli-sistemler-1ab4bbef99ce)
+1. [Chatbot değil, sistem tasarlamak — güvenli sistemler (1)](https://medium.com/@a.burakbasaran/chatbot-değil-sistem-tasarlamak-güvenli-sistemler-oluşturmak-1-9976a86a2d9d)
+2. [“Bilmiyorum” diyebilen yapay zekâ — refusal ve citation sözleşmesini net (2)](https://medium.com/@a.burakbasaran/bilmiyorum-diyebilen-yapay-zekâ-refusal-ve-citation-sözleşmesini-net-ebfc686b9071)
+3. [Mock değil, gerçek model — refusal ve citation sözleşmesini Azure’da ölçmek (3)](https://medium.com/@a.burakbasaran/mock-de%C4%9Fil-ger%C3%A7ek-model-refusal-ve-citation-s%C3%B6zle%C5%9Fmesini-azureda-%C3%B6l%C3%A7mek-g%C3%BCvenli-sistemler-1ab4bbef99ce)
 
 
 ## What this is
