@@ -1,6 +1,5 @@
 {
-  "runStartedUtc": "2026-06-03T08:22:57.9857883+00:00",
-  "evalMode": "Mock",
+  "runStartedUtc": "2026-06-03T08:22:14.1504984+00:00",
   "totalCases": 20,
   "refusedCount": 6,
   "groundedCount": 14,
@@ -166,7 +165,7 @@
       "roles": [
         "agent"
       ],
-      "expectedRefused": true,
+      "expectedRefused": false,
       "actualRefused": false,
       "actualCitationCount": 1,
       "actualEscalationRequired": true,

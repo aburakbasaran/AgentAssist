@@ -1,0 +1,101 @@
+{
+  "name": "agentassist-knowledge",
+  "fields": [
+    {
+      "name": "id",
+      "type": "Edm.String",
+      "key": true,
+      "searchable": false,
+      "filterable": true,
+      "retrievable": true
+    },
+    {
+      "name": "documentId",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "searchable": false
+    },
+    {
+      "name": "chunkId",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "searchable": false
+    },
+    {
+      "name": "title",
+      "type": "Edm.String",
+      "searchable": true,
+      "retrievable": true,
+      "analyzer": "tr.microsoft"
+    },
+    {
+      "name": "content",
+      "type": "Edm.String",
+      "searchable": true,
+      "retrievable": true,
+      "analyzer": "tr.microsoft"
+    },
+    {
+      "name": "allowedRoles",
+      "type": "Collection(Edm.String)",
+      "filterable": true,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "documentType",
+      "type": "Edm.String",
+      "filterable": true,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "riskLevel",
+      "type": "Edm.String",
+      "filterable": true,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "isActive",
+      "type": "Edm.Boolean",
+      "filterable": true,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "location",
+      "type": "Edm.String",
+      "filterable": true,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "updatedAt",
+      "type": "Edm.DateTimeOffset",
+      "filterable": true,
+      "facetable": true,
+      "retrievable": true
+    }
+  ],
+  "semantic": {
+    "configurations": [
+      {
+        "name": "agentassist-semantic",
+        "prioritizedFields": {
+          "titleField": {
+            "fieldName": "title"
+          },
+          "prioritizedContentFields": [
+            {
+              "fieldName": "content"
+            }
+          ],
+          "prioritizedKeywordsFields": []
+        }
+      }
+    ]
+  }
+}

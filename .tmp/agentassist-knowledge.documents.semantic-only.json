@@ -1,0 +1,18 @@
+{
+  "value": [
+    {
+      "@search.action": "upload",
+      "id": "acme-mr-prep-001",
+      "documentId": "DOC-ACME-MR-PREP",
+      "chunkId": "CHK-001",
+      "title": "MR randevu öncesi hazırlık",
+      "content": "Acme Sağlık Grubu için MR randevusu öncesinde metal aksesuarlar çıkarılır. Hasta işlem öncesinde üzerinde saat, takı, kemer, bozuk para, kart ve manyetik etkilenebilecek eşya bulundurmamalıdır. Kontrast madde kullanılacaksa alerji öyküsü ve böbrek fonksiyon bilgisi kontrol edilir. Hasta gerekli durumlarda sağlık personeline implant, protez, kalp pili veya gebelik şüphesi bilgisini vermelidir.",
+      "allowedRoles": ["agent", "supervisor"],
+      "documentType": "Guidance",
+      "riskLevel": "Medium",
+      "isActive": true,
+      "location": "branch-a",
+      "updatedAt": "2026-04-01T08:00:00Z"
+    }
+  ]
+}

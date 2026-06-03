@@ -1,10 +1,113 @@
 # Agent Assist Enterprise .NET Azure Project
 
-**Status:** Phase A delivered (mock vertical slice); production pilot in progress (citation-first RAG over Azure AI Search + Azure OpenAI, internal pilot / reference architecture scope).
+**Status:** Production pilot and two-layer DevCloud evaluation delivered on `master` (see [Evaluation](#evaluation)); mock vertical slice remains available in `Mock` mode. Internal pilot / reference architecture scope — not public production.
 
-Production-grade reference architecture for regulated-industry RAG, in progress, building in public. Phase A is a mock-first vertical slice: it uses deterministic in-memory knowledge, a mock `IChatClient`, embedded prompt templates, and no Azure SDK calls. The production pilot phases swap mocks for Azure AI Search and Azure OpenAI through the same `IKnowledgeSearchService` / `IChatClient` contracts, add structured citation validation, persistent audit, observability, and a health-checked deployment recipe.
+Companion repository for a three-part Medium article series (Turkish). The articles link to this repo; this README is the first screen for readers arriving from the series.
+
+**Runtime:** .NET 10 / C# 14 ([ADR-0001](docs/adr/0001-net10-lts-runtime.md); `TargetFramework` is `net10.0` in project files).
+
+Production-grade reference architecture for regulated-industry RAG. Phase A is a mock-first vertical slice: deterministic in-memory knowledge, a mock `IChatClient`, embedded prompt templates, and no Azure SDK calls. The production pilot swaps mocks for Azure AI Search and Azure OpenAI through the same `IKnowledgeSearchService` / `IChatClient` contracts, adds structured citation validation, persistent audit, observability, and a health-checked deployment recipe.
 
 The healthcare-flavored documents in this repository are illustrative. They use placeholder names such as Acme Sağlık Grubu, Şube A/B/C, and Doktor X. No real PHI/PII is included.
+
+## Article series
+
+This repo is the companion for:
+
+1. [Chatbot değil, sistem tasarlamak — güvenli sistemler (1)](https://medium.com/@a.burakbasaran/chatbot-değil-sistem-tasarlamak-güvenli-sistemler-oluşturmak-1-9976a86a2d9d)
+2. [“Bilmiyorum” diyebilen yapay zekâ — refusal ve citation sözleşmesini net](https://medium.com/@a.burakbasaran/bilmiyorum-diyebilen-yapay-zekâ-refusal-ve-citation-sözleşmesini-net-ebfc686b9071)
+3. *(not published yet — link TODO)*
+
+## What this is
+
+| Layer | Project | Role |
+|---|---|---|
+| Domain | `AgentAssist.Domain` | Pure contract types (queries, answers, citations) |
+| Application | `AgentAssist.Application` | Orchestrator, contract rules, validators |
+| Infrastructure | `AgentAssist.Infrastructure` | Azure and Mock adapters |
+| Host | `AgentAssist.Api` | ASP.NET Core Minimal API |
+
+**Refusal + citation contract** (orchestrator: `AnswerAssistantQueryHandler`):
+
+1. **No retrieval** — before the LLM; user-facing reason: `Bu soruyu yanıtlamak için yeterli kaynak bulunamadı.`
+2. **Malformed model JSON** — `model_returned_malformed_response`
+3. **Model self-refusal** — `envelope.RefusalReason` or `envelope.AnswerText`
+4. **Citation not in retrieved whitelist** — `model_returned_invalid_citation`
+
+**Retrieval filter** (Azure AI Search): every query applies `isActive eq true` plus role allow-list (`allowedRoles/any(...)`); raw user role strings never reach OData — only canonical values from `AzureSearchAllowList` (`AzureSearchFilterBuilder`).
+
+Further reading: [`docs/architecture/production-pilot-overview.md`](docs/architecture/production-pilot-overview.md), [`docs/architecture/phase-a-overview.md`](docs/architecture/phase-a-overview.md), and [`docs/adr/`](docs/adr/).
+
+## Evaluation
+
+Two layers separate **contract behavior** (binary) from **answer quality** (scored).
+
+### Layer 1 — contract behavior (binary)
+
+Runs the full golden set against real Azure when `EVAL_MODE=DevCloud`. Checks include: no-source refusal, role filter, inactive filter, adversarial cases, and citation validity.
+
+**Latest committed result:** [`eval/results/layer1-devcloud-latest.json`](eval/results/layer1-devcloud-latest.json) (`evalMode`: `DevCloud`, `semanticOnly`: `true`)
+
+| Metric | Value |
+|---|---|
+| `totalCases` | 20 |
+| `passCount` | 19 |
+| `outcomeKind` — `GroundedWithCitations` | 8 |
+| `outcomeKind` — `ValidContractRefusal` | 12 |
+
+The single failing case is **HR-002** (`high_risk_escalation`): expected refused + escalation; observed `ValidContractRefusal` with the no-source user message (retrieval did not surface a chunk).
+
+### Layer 2 — answer quality (scored)
+
+`GroundednessEvaluator` + `RelevanceTruthAndCompletenessEvaluator` on a 1–5 scale; **3 runs per case** (`runsPerCase`: 3). Judge uses the **same** chat deployment as the producer (`judgeSameAsProducer`: true — self-grading; treat scores accordingly).
+
+**Latest committed result:** [`eval/results/layer2-quality-latest.json`](eval/results/layer2-quality-latest.json)
+
+| Metric | Value |
+|---|---|
+| `casesTotal` / `casesCompleted` | 8 / 8 |
+| `totalScoredRuns` | 24 |
+| Grounded cases | AC-001 … AC-006, HR-001, HR-003 |
+
+**Example finding (AC-004):** groundedness mean **5** across 3 runs; completeness mean **2** (judge: response is accurate but lacks step-by-step detail vs. the question “Şube transfer prosedürü adımları”).
+
+### Golden set and reports
+
+- Golden set: [`eval/golden-set.production-pilot.jsonl`](eval/golden-set.production-pilot.jsonl) — categories: `answerable_with_citation`, `no_source_refusal`, `high_risk_escalation`, `role_restricted`, `inactive_filter`, `adversarial_prompt_injection`
+- Raw JSON outputs: [`eval/results/`](eval/results/)
+- Detailed write-ups: [`docs/quality-gates/production-pilot-quality-gate.md`](docs/quality-gates/production-pilot-quality-gate.md), [`docs/quality-gates/production-pilot-quality-gate-result.md`](docs/quality-gates/production-pilot-quality-gate-result.md)
+
+### Run evaluation tests
+
+Project: `tests/AgentAssist.Evaluation.Tests`. When `EVAL_MODE` is **unset**, the host forces `Mock` (CI-safe). Set `EVAL_MODE=DevCloud` and configure Azure via `dotnet user-secrets` on `AgentAssist.Api` (see [Configuration](#configuration-mock-vs-devcloud)).
+
+**Mock harness** (no Azure; all golden categories in Mock):
+
+```powershell
+dotnet test tests/AgentAssist.Evaluation.Tests --configuration Release
+```
+
+**Layer 1 — DevCloud golden set** (writes `eval/results/layer1-devcloud-latest.json`):
+
+```powershell
+$env:EVAL_MODE = 'DevCloud'
+dotnet test tests/AgentAssist.Evaluation.Tests --configuration Release --filter "FullyQualifiedName~Layer1_DevCloud_RunGoldenSet"
+```
+
+**Layer 2 — DevCloud quality metrics** (writes `eval/results/layer2-quality-latest.json`; long-running):
+
+```powershell
+$env:EVAL_MODE = 'DevCloud'
+dotnet test tests/AgentAssist.Evaluation.Tests --configuration Release --filter "FullyQualifiedName~Layer2_DevCloud_QualityMetrics_WriteResults"
+```
+
+One-shot index seeding before Layer 1: test `GoldenPilotIndexUploadTests` (same `EVAL_MODE=DevCloud`). By default, DevCloud eval forces **semantic-only** retrieval (`EVAL_SEMANTIC_ONLY` unset or not `false` clears vector field and embedding deployment in the test host — matches `semanticOnly: true` in Layer 1 results).
+
+### Honest limits (pilot)
+
+- Retrieval and generation hit **real** Azure AI Search + Azure OpenAI in DevCloud eval.
+- **Risk classifier** is still `MockRiskClassifier` (keyword-based) in both Mock and DevCloud composition.
+- **Retrieval metrics** (precision/recall) are not measured — no retrieval ground-truth labels in the golden set.
 
 ## Production Hardening Out of Scope
 
@@ -30,6 +133,19 @@ dotnet run --project src/AgentAssist.Api
 - `Mock` — deterministic in-memory knowledge, mock chat client (also returns structured JSON), `.AllowAnonymous()` endpoints, no Azure resources required.
 - `DevCloud` — Azure AI Search retrieval, Azure OpenAI `IChatClient`, Azure SQL audit, Application Insights / OpenTelemetry. Configure via `dotnet user-secrets` locally and Key Vault in Azure.
 
+### Identity — no API keys (local + pilot)
+
+Neither local development nor the internal pilot uses Search/OpenAI **API keys**. Data-plane access uses **DefaultAzureCredential** (local: `az login`) and **Microsoft Entra ID RBAC** on Azure resources.
+
+Roles documented in [`docs/azure/production-pilot-azure-setup.md`](docs/azure/production-pilot-azure-setup.md) (Managed Identity on App Service):
+
+| Service | Role |
+|---|---|
+| Azure AI Search | Search Index Data Contributor |
+| Azure OpenAI | Cognitive Services OpenAI User |
+| Key Vault | Key Vault Secrets User |
+| Azure SQL (audit DB) | `CREATE USER [<app-service>] FROM EXTERNAL PROVIDER` + `db_datareader` / `db_datawriter` |
+
 Local development never reads secrets from `appsettings.json` (committed) or `appsettings.Development.json` (gitignored). Use `dotnet user-secrets`:
 
 ```powershell
@@ -39,12 +155,17 @@ dotnet user-secrets set "AgentAssist:Mode" "DevCloud"
 dotnet user-secrets set "AzureSearch:Endpoint" "https://<your-search>.search.windows.net"
 dotnet user-secrets set "AzureOpenAI:Endpoint" "https://<your-openai>.openai.azure.com"
 dotnet user-secrets set "AzureOpenAI:ChatDeploymentName" "<your-chat-deployment>"
+# Optional — only if you enable vector/hybrid retrieval (see below)
 dotnet user-secrets set "AzureOpenAI:EmbeddingDeploymentName" "<your-embed-deployment>"
 dotnet user-secrets set "AzureSql:ConnectionString" "Server=...;Authentication=Active Directory Default"
 dotnet user-secrets set "ApplicationInsights:ConnectionString" "InstrumentationKey=...;IngestionEndpoint=..."
 ```
 
-Full Azure provisioning steps live in [`docs/azure/production-pilot-azure-setup.md`](docs/azure/production-pilot-azure-setup.md).
+Full Azure provisioning steps: [`docs/azure/production-pilot-azure-setup.md`](docs/azure/production-pilot-azure-setup.md).
+
+### Embedding / vector retrieval (optional)
+
+Bicep and the setup guide can provision an **embedding** deployment, and `EmbeddingDeploymentName` is supported in configuration. The **production pilot evaluation** ran **semantic-only** search (`semanticOnly: true` in Layer 1 results; DevCloud eval clears `VectorFieldName` and `EmbeddingDeploymentName` unless `EVAL_SEMANTIC_ONLY=false`). You do not need `EmbeddingDeploymentName` for semantic-only retrieval; set it only when experimenting with hybrid/vector search.
 
 ## Pilot User Context
 
@@ -84,7 +205,9 @@ az deployment group create `
   --parameters sqlAdminPassword='<replace-with-strong-password>'
 ```
 
-2. Create the Azure AI Search index (see [`docs/azure/search-index-schema.md`](docs/azure/search-index-schema.md)) and the chat/embedding deployments inside Azure OpenAI (see [`docs/azure/production-pilot-azure-setup.md`](docs/azure/production-pilot-azure-setup.md) section 4).
+`sqlAdminPassword` is required by [`infra/main.bicep`](infra/main.bicep) to create the SQL **server** (`administratorLogin` / `administratorLoginPassword` on `Microsoft.Sql/servers`). That SQL login is for server administration and initial setup only. The **application** connects with **Entra ID only** (`Authentication=Active Directory Default` in the connection string; managed identity + `CREATE USER … FROM EXTERNAL PROVIDER` per the setup guide). No SQL password is stored in app configuration.
+
+2. Create the Azure AI Search index (see [`docs/azure/search-index-schema.md`](docs/azure/search-index-schema.md)) and the chat deployment inside Azure OpenAI; embedding deployment is **optional** for semantic-only pilot (see [Embedding / vector retrieval](#embedding--vector-retrieval-optional)).
 
 3. Apply the EF Core migration to the audit database (the production pilot does not commit migrations; create one locally then apply):
 

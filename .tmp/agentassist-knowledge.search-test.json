@@ -1,0 +1,8 @@
+{
+  "search": "MR randevu hazırlık bilgisi nedir?",
+  "queryType": "semantic",
+  "semanticConfiguration": "agentassist-semantic",
+  "filter": "isActive eq true and allowedRoles/any(r: r eq 'agent') and location eq 'branch-a'",
+  "select": "id,documentId,chunkId,title,content,allowedRoles,documentType,riskLevel,location,updatedAt",
+  "top": 3
+}
