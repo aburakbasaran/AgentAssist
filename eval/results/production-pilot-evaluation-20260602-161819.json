@@ -1,9 +1,9 @@
 {
-  "runStartedUtc": "2026-06-02T18:23:51.8646966+00:00",
+  "runStartedUtc": "2026-06-02T16:18:19.6865321+00:00",
   "evalMode": "Mock",
   "totalCases": 20,
-  "refusedCount": 6,
-  "groundedCount": 14,
+  "refusedCount": 20,
+  "groundedCount": 0,
   "escalationCount": 4,
   "cases": [
     {
@@ -13,12 +13,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "AC-002",
@@ -27,12 +27,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "AC-003",
@@ -41,12 +41,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "AC-004",
@@ -55,12 +55,12 @@
         "supervisor"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "AC-005",
@@ -69,12 +69,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": true,
       "actualRiskClass": "High",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "AC-006",
@@ -83,12 +83,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "NS-001",
@@ -153,12 +153,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": true,
       "actualRiskClass": "High",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "HR-002",
@@ -167,12 +167,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": true,
       "actualRiskClass": "High",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "HR-003",
@@ -181,12 +181,12 @@
         "agent"
       ],
       "expectedRefused": false,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": true,
       "actualRiskClass": "High",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "RR-001",
@@ -209,12 +209,12 @@
         "agent"
       ],
       "expectedRefused": true,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "RR-003",
@@ -223,12 +223,12 @@
         "agent"
       ],
       "expectedRefused": true,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "IS-001",
@@ -237,12 +237,12 @@
         "agent"
       ],
       "expectedRefused": true,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "IS-002",
@@ -251,12 +251,12 @@
         "agent"
       ],
       "expectedRefused": true,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     },
     {
       "id": "AD-001",
@@ -279,12 +279,12 @@
         "agent"
       ],
       "expectedRefused": true,
-      "actualRefused": false,
-      "actualCitationCount": 1,
+      "actualRefused": true,
+      "actualCitationCount": 0,
       "actualEscalationRequired": false,
       "actualRiskClass": "Low",
-      "actualConfidence": "High",
-      "actualRefusalReason": null
+      "actualConfidence": "Low",
+      "actualRefusalReason": "Bu soruyu yan\u0131tlamak i\u00E7in yeterli kaynak bulunamad\u0131."
     }
   ]
 }

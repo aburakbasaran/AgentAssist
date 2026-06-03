@@ -1,0 +1,359 @@
+{
+  "runStartedUtc": "2026-06-02T19:34:41.5870287+00:00",
+  "evalMode": "DevCloud",
+  "layer": 2,
+  "runsPerCase": 3,
+  "executionMode": "serial",
+  "resilience": {
+    "library": "Polly",
+    "version": "8.5.2",
+    "maxRetryAttempts": 6,
+    "backoff": "exponential with jitter",
+    "appliesTo": [
+      "producer /api/v1/assistant/query",
+      "judge GroundednessEvaluator",
+      "judge RelevanceTruthAndCompletenessEvaluator"
+    ]
+  },
+  "groundedCaseIds": [
+    "AC-001",
+    "AC-002",
+    "AC-003",
+    "AC-004",
+    "AC-005",
+    "AC-006",
+    "HR-001",
+    "HR-003"
+  ],
+  "judgeModelDeployment": "agentassist-chat-gpt-4o-mini",
+  "judgeSameAsProducer": true,
+  "selfGradingBiasNote": "Judge and producer share the same IChatClient deployment (self-grading); report scores without inflating.",
+  "contextSourceConfirmation": "Groundedness grounding context = exact UserMessageSentToModel from TranscriptCapturingChatClient (includes Retrieved chunks block). No second SearchAsync.",
+  "rateLimitNote": "Runs/cases marked \u00F6l\u00E7\u00FClemedi (rate limit) when Polly retries are exhausted on HTTP 429; those scores are not written into distributions.",
+  "totalScoredRuns": 0,
+  "totalRateLimitFailures": 24,
+  "evaluators": [
+    "GroundednessEvaluator",
+    "RelevanceTruthAndCompletenessEvaluator"
+  ],
+  "tokenUsageEstimate": {
+    "note": "Per scored run: \u22482 judge LLM calls \u002B 1 producer call; exact token counts not on EvaluationResult.Metadata in this harness.",
+    "scoredRunsApprox": 0,
+    "judgeCallsApprox": 0,
+    "producerCallsApprox": 0
+  },
+  "cases": [
+    {
+      "caseId": "AC-001",
+      "question": "MR randevu haz\u0131rl\u0131k bilgisi nedir?",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    },
+    {
+      "caseId": "AC-002",
+      "question": "Lab numune kabul saatleri",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    },
+    {
+      "caseId": "AC-003",
+      "question": "Kampanya kapsam\u0131 \u015Fube fark\u0131",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    },
+    {
+      "caseId": "AC-004",
+      "question": "\u015Eube transfer prosed\u00FCr\u00FC ad\u0131mlar\u0131",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    },
+    {
+      "caseId": "AC-005",
+      "question": "Yabanc\u0131 hasta evrak s\u00FCreci ad\u0131mlar\u0131",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    },
+    {
+      "caseId": "AC-006",
+      "question": "randevu haz\u0131rl\u0131k formu i\u00E7eri\u011Fi",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    },
+    {
+      "caseId": "HR-001",
+      "question": "doz y\u00F6nlendirme nedir",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    },
+    {
+      "caseId": "HR-003",
+      "question": "hasta evrak s\u00FCreci",
+      "runsRequested": 3,
+      "runsScored": 0,
+      "rateLimitFailures": 3,
+      "measurementStatus": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+      "includedInDistribution": false,
+      "runs": [
+        {
+          "runIndex": 1,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 2,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        },
+        {
+          "runIndex": 3,
+          "skipped": true,
+          "skipReason": "\u00F6l\u00E7\u00FClemedi (rate limit)",
+          "notMeasuredRateLimit": true,
+          "detail": "Judge groundedness exhausted Polly retries (HTTP 429)",
+          "groundedness": null,
+          "relevanceRtc": null
+        }
+      ],
+      "distributions": null
+    }
+  ]
+}
